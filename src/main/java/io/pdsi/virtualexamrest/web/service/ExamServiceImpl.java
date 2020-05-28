@@ -3,22 +3,23 @@ package io.pdsi.virtualexamrest.web.service;
 import io.pdsi.virtualexamrest.api.dto.ExamDto;
 import io.pdsi.virtualexamrest.core.jpa.entity.Exam;
 import io.pdsi.virtualexamrest.core.jpa.repository.ExamRepository;
+import io.pdsi.virtualexamrest.web.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ExamServiceImpl implements ExamService {
 	private final ExamRepository examRepository;
-	private final ExaminerService examinerService;
 
 	@Override
-	public List<ExamDto> getExams() {
+	public List<ExamDto> getExamsDto() {
 		return examRepository
 				.findAll(Sort.by(Sort.Direction.ASC, "id"))
 				.stream()
@@ -27,8 +28,13 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public ExamDto getExamById(Integer id) {
-		return ExamDto.fromEntity(examRepository.findById(id).orElse(null));
+	public ExamDto getExamDtoById(Integer id) throws IdNotFoundException {
+		try {
+			ExamDto exam = ExamDto.fromEntity(Objects.requireNonNull(examRepository.findById(id).orElse(null)));
+			return exam;
+		} catch (NullPointerException e) {
+			throw new IdNotFoundException("Exam with ID:" + id + "not found");
+		}
 	}
 
 	@Override
@@ -41,5 +47,31 @@ public class ExamServiceImpl implements ExamService {
 		} catch (IllegalArgumentException | DataIntegrityViolationException e) {
 			return false;
 		}
+	}
+
+	@Override
+	public void updateExam(ExamDto exam) {
+		if (exam.getId() == null) throw new IdNotFoundException("Exam with ID:" + exam.getId() + "not found");
+		try {
+			Exam examIsExists = examRepository.getOne(exam.getId());
+		} catch (IllegalArgumentException e) {
+			throw new IdNotFoundException("Exam with ID:" + exam.getId() + "not found");
+		}
+		try {
+			examRepository.save(exam.toEntity());
+		} catch (IllegalArgumentException | DataIntegrityViolationException e) {
+			throw new DataIntegrityViolationException("Couldn't save" + exam.toString());
+		}
+
+	}
+
+	@Override
+	public void deleteExamById(Integer id) {
+		try {
+			Exam examIsExists = examRepository.getOne(id);
+		} catch (IllegalArgumentException e) {
+			throw new IdNotFoundException("Exam with ID:" + id + "not found");
+		}
+		examRepository.deleteById(id);
 	}
 }
