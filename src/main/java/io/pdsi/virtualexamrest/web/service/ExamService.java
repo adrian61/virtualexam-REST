@@ -8,4 +8,6 @@ public interface ExamService {
 	List<ExamDto> getExams();
 
 	ExamDto getExamById(Integer id);
+
+	boolean createExam(ExamDto examDto);
 }

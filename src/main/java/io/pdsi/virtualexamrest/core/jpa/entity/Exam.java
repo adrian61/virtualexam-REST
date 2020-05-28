@@ -29,6 +29,6 @@ public class Exam extends BaseEntity {
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "examiner_id", referencedColumnName = "id")
+	@JoinColumn(name = "examiner_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Examiner examinerId;
 }

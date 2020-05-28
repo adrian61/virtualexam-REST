@@ -25,12 +25,20 @@ public class ExamController {
 
 	@GetMapping("/exams/{id}")
 	@CrossOrigin
-	public ResponseEntity<?> handleGetExams(@PathVariable Integer id) {
+	public ResponseEntity<?> handleGetExamById(@PathVariable Integer id) {
 		try {
 			ExamDto examDto = examService.getExamById(id);
 			return new ResponseEntity<>(examDto, HttpStatus.OK);
 		} catch (NullPointerException e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
+	}
+
+	@PostMapping("/exams")
+	@CrossOrigin
+	public ResponseEntity<?> handleCreateExam(@RequestBody ExamDto exam) {
+		boolean isAdded = examService.createExam(exam);
+		if (isAdded) return new ResponseEntity<>(HttpStatus.CREATED);
+		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

@@ -19,7 +19,8 @@ public class Examiner extends BaseEntity {
 
 	@Column(name = "last_name")
 	private String lastName;
-
+	//Setter added for tests
+	@Setter
 	@Column(name = "login")
 	private String login;
 
