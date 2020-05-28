@@ -1,7 +1,9 @@
 package io.pdsi.virtualexamrest.web.controller;
 
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class ApplicationController {
+@RequestMapping("/api")
+public class StudentEntryController {
 }
