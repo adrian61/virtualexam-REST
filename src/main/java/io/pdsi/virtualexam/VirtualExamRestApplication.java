@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VirtualexamRestApplication {
+public class VirtualExamRestApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VirtualexamRestApplication.class, args);
+		SpringApplication.run(VirtualExamRestApplication.class, args);
 	}
 
 }
