@@ -7,4 +7,5 @@ import java.util.List;
 public interface ExamService {
 	List<ExamDto> getExams();
 
+	ExamDto getExamById(Integer id);
 }

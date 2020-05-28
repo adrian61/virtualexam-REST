@@ -22,4 +22,9 @@ public class ExamServiceImpl implements ExamService {
 				.map(ExamDto::fromEntity)
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public ExamDto getExamById(Integer id) {
+		return ExamDto.fromEntity(examRepository.findById(id).orElse(null));
+	}
 }
