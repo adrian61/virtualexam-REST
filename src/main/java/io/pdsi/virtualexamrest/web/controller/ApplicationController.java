@@ -1,4 +1,4 @@
-package io.pdsi.virtualexam.web.controller;
+package io.pdsi.virtualexamrest.web.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
