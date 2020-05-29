@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class ExamController {
 
 	@PostMapping("/exams")
 	@CrossOrigin
-	public ResponseEntity<?> handleCreateExam(@RequestBody ExamDto exam) {
+	public ResponseEntity<?> handleCreateExam(@RequestBody @Valid ExamDto exam) {
 		boolean isAdded = examService.createExam(exam);
 		if (isAdded) return new ResponseEntity<>(HttpStatus.CREATED);
 		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -49,7 +50,7 @@ public class ExamController {
 
 	@PutMapping("/exams")
 	@CrossOrigin
-	public ResponseEntity<?> handleUpdateExam(@RequestBody ExamDto exam) {
+	public ResponseEntity<?> handleUpdateExam(@RequestBody @Valid ExamDto exam) {
 		try {
 			examService.updateExam(exam);
 			return new ResponseEntity<>(HttpStatus.OK);

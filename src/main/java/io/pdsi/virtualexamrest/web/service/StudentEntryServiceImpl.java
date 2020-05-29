@@ -27,9 +27,10 @@ public class StudentEntryServiceImpl implements StudentEntryService {
 	}
 
 	@Override
-	public StudentEntryDto getStudentEntryById(Integer id) {
+	public StudentEntryDto getStudentEntryById(Integer id) throws IdNotFoundException {
 		try {
-			StudentEntryDto studentEntryDto = StudentEntryDto.fromEntity(Objects.requireNonNull(studentEntryRepository.findById(id).orElse(null)));
+			StudentEntryDto studentEntryDto = StudentEntryDto
+					.fromEntity(Objects.requireNonNull(studentEntryRepository.findById(id).orElse(null)));
 			return studentEntryDto;
 		} catch (NullPointerException e) {
 			throw new IdNotFoundException("Student entry with ID:" + id + "not found");

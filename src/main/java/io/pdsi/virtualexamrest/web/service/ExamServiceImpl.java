@@ -6,6 +6,7 @@ import io.pdsi.virtualexamrest.core.jpa.repository.ExamRepository;
 import io.pdsi.virtualexamrest.web.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,7 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void updateExam(ExamDto exam) {
+	public void updateExam(ExamDto exam) throws IdNotFoundException, DataIntegrityViolationException {
 		if (exam.getId() == null) throw new IdNotFoundException("Exam with ID:" + exam.getId() + "not found");
 		try {
 			Exam examIsExists = examRepository.getOne(exam.getId());
@@ -66,12 +67,17 @@ public class ExamServiceImpl implements ExamService {
 	}
 
 	@Override
-	public void deleteExamById(Integer id) {
+	public void deleteExamById(Integer id) throws IdNotFoundException {
 		try {
 			Exam examIsExists = examRepository.getOne(id);
 		} catch (IllegalArgumentException e) {
 			throw new IdNotFoundException("Exam with ID:" + id + "not found");
 		}
-		examRepository.deleteById(id);
+		try {
+			examRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new IdNotFoundException("Exam with ID:" + id + "not found");
+		}
+
 	}
 }
