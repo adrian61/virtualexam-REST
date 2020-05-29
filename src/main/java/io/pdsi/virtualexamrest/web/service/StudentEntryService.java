@@ -6,10 +6,15 @@ import io.pdsi.virtualexamrest.core.jpa.entity.Exam;
 import java.util.List;
 
 public interface StudentEntryService {
-	List<StudentEntryDto> getStudentEntries();
+	List<StudentEntryDto> getStudentEntriesDto();
 
+	StudentEntryDto getStudentEntryDtoById(Integer id);
 
-	StudentEntryDto getStudentEntryById(Integer id);
+	boolean createStudentEntry(StudentEntryDto studentEntryDto);
+
+	void updateStudentEntry(StudentEntryDto studentEntry);
+
+	void deleteStudentEntryById(Integer id);
 
 	List<StudentEntryDto> getStudentEntryDtoByExamId(Exam exam);
 }

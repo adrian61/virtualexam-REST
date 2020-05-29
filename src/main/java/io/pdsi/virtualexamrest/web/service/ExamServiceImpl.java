@@ -2,6 +2,7 @@ package io.pdsi.virtualexamrest.web.service;
 
 import io.pdsi.virtualexamrest.api.dto.ExamDto;
 import io.pdsi.virtualexamrest.core.jpa.entity.Exam;
+import io.pdsi.virtualexamrest.core.jpa.entity.Examiner;
 import io.pdsi.virtualexamrest.core.jpa.repository.ExamRepository;
 import io.pdsi.virtualexamrest.web.exception.IdNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -79,5 +80,13 @@ public class ExamServiceImpl implements ExamService {
 			throw new IdNotFoundException("Exam with ID:" + id + "not found");
 		}
 
+	}
+
+	@Override
+	public List<ExamDto> getExamDtoByExaminerId(Examiner examiner) {
+		return examRepository.getAllByExaminerId(examiner)
+				.stream()
+				.map(ExamDto::fromEntity)
+				.collect(Collectors.toList());
 	}
 }
