@@ -4,11 +4,15 @@ import io.pdsi.virtualexamrest.core.jpa.entity.Examiner;
 import lombok.Builder;
 import lombok.Getter;
 
+import javax.validation.constraints.Size;
+
 @Builder
 @Getter
 public class ExaminerDto {
 	private Integer id;
+	@Size(min = 1)
 	private String firstName;
+	@Size(min = 1)
 	private String lastName;
 
 	public static ExaminerDto fromEntity(Examiner examiner) {

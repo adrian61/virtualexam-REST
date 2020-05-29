@@ -28,7 +28,7 @@ public class Exam extends BaseEntity {
 	private ZonedDateTime endDate;
 
 	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "examiner_id", referencedColumnName = "id")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "examiner_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private Examiner examinerId;
 }
